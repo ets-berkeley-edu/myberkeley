@@ -24,14 +24,22 @@ if [ -f $INPUT_FILE ]; then
   ORACLE_OAE_USERNAME=`awk -F"=" '/^ORACLE_OAE_USERNAME=/ {print $2}' $INPUT_FILE`
   ORACLE_OAE_PASSWORD=`awk -F"=" '/^ORACLE_OAE_PASSWORD=/ {print $2}' $INPUT_FILE`
   MYSQL_PASSWORD=`awk -F"=" '/^MYSQL_PASSWORD=/ {print $2}' $INPUT_FILE`
+  MYSQL_HOSTPORT=`awf -F"=" '/^MYSQL_HOSTPORT=/ {print $2}' $INPUT_FILE`
   SOLR=`awk -F"=" '/^SOLR=/ {print $2}' $INPUT_FILE`
+  SOLR_URL=`awk -F"=" '/^SOLR_URL=/ {print $2}' $INPUT_FILE`
+  CLUSTER=`awk -F"=" '/^CLUSTER=/ {print $2}' $INPUT_FILE`
 else
   SLING_PASSWORD='admin'
   SHARED_SECRET='SHARED_SECRET_CHANGE_ME_IN_PRODUCTION'
   CONFIG_FILE_DIR=''
 fi
+
 if [ -z $SOLR ]; then
   SOLR='embedded'
+fi
+
+if [ -z $CLUSTER ]; then
+  CLUSTER='no'
 fi
 
 LOG=$2
@@ -145,17 +153,36 @@ else
     if [ $MYSQL_PASSWORD ]; then
       SPARSE_CONFIG=$STORAGE_FILES/JDBCStorageClientPool.config
       if [ -f $SPARSE_CONFIG ]; then
-        sed "s/ironchef/$MYSQL_PASSWORD/g" $SPARSE_CONFIG > $SPARSE_CONFIG.new
+        if [ $CLUSTER == 'yes' ] && [ $MYSQL_HOSTPORT ]; then
+          sed -e "s/localhost/$MYSQL_HOSTPORT/g" -e "s/ironchef/$MYSQL_PASSWORD/g" $SPARSE_CONFIG > $SPARSE_CONFIG.new
+        else
+          sed "s/ironchef/$MYSQL_PASSWORD/g" $SPARSE_CONFIG > $SPARSE_CONFIG.new
+        fi
         mv $SPARSE_CONFIG.new $SPARSE_CONFIG
       fi
       JCR_CONFIG=$STORAGE_FILES/repository.xml
       if [ -f $JCR_CONFIG ]; then
-        sed "s/ironchef/$MYSQL_PASSWORD/g" $JCR_CONFIG > $JCR_CONFIG.new
+        if [ $CLUSTER == 'yes' ] && [ $MYSQL_HOSTPORT ]; then
+          sed -e "s/localhost:3306/$MYSQL_HOSTPORT/g" -e "s/ironchef/$MYSQL_PASSWORD/g" $JCR_CONFIG > $JCR_CONFIG.new
+        else
+          sed "s/ironchef/$MYSQL_PASSWORD/g" $JCR_CONFIG > $JCR_CONFIG.new
+        fi
         mv $JCR_CONFIG.new $JCR_CONFIG
       fi
     fi
   else
     echo "unknown database $OAE_DATABASE" | $LOGIT
+  fi
+
+  if [ $CLUSTER == 'yes' ]; then
+    SPARSE_CONFIG=$SRC_LOC/myberkeley/solrserver/src/main/resources/sling/config/org/sakaiproject/nakamura/solr/RemoteSolrClient.config
+    if [ -f $SPARSE_CONFIG ]; then
+      sed "/remoteurl/d" $SPARSE_CONFIG > $SPARSE_CONFIG.new
+      if [ $SOLR_URL ]; then
+        echo "remoteurl=\"$SOLR_URL\"" >> $SPARSE_CONFIG.new
+      fi
+      mv $SPARSE_CONFIG.new $SPARSE_CONFIG
+    fi
   fi
 
   rm $SRC_LOC/myberkeley/working/load/*
