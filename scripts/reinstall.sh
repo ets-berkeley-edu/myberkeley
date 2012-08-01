@@ -69,6 +69,7 @@ rm -rf ~/.m2/repository/edu/berkeley
 rm -rf ~/.m2/repository/org/sakaiproject
 
 echo "`date`: Fetching new sources for myberkeley..." | $LOGIT
+git reset --hard >>$LOG 2>&1
 git pull >>$LOG 2>&1
 echo "Last commit:" | $LOGIT
 git log -1 | $LOGIT
