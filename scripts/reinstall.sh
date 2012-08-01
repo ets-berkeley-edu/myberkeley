@@ -24,7 +24,7 @@ if [ -f $INPUT_FILE ]; then
   ORACLE_OAE_USERNAME=`awk -F"=" '/^ORACLE_OAE_USERNAME=/ {print $2}' $INPUT_FILE`
   ORACLE_OAE_PASSWORD=`awk -F"=" '/^ORACLE_OAE_PASSWORD=/ {print $2}' $INPUT_FILE`
   MYSQL_PASSWORD=`awk -F"=" '/^MYSQL_PASSWORD=/ {print $2}' $INPUT_FILE`
-  MYSQL_HOSTPORT=`awf -F"=" '/^MYSQL_HOSTPORT=/ {print $2}' $INPUT_FILE`
+  MYSQL_HOSTPORT=`awk -F"=" '/^MYSQL_HOSTPORT=/ {print $2}' $INPUT_FILE`
   SOLR=`awk -F"=" '/^SOLR=/ {print $2}' $INPUT_FILE`
   SOLR_URL=`awk -F"=" '/^SOLR_URL=/ {print $2}' $INPUT_FILE`
   CLUSTER=`awk -F"=" '/^CLUSTER=/ {print $2}' $INPUT_FILE`
