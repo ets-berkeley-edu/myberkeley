@@ -89,7 +89,7 @@ cd ../myberkeley
 
 STORAGE_FILES="$SRC_LOC/myberkeley/scripts/$OAE_DATABASE"
 
-if [ $CLUSTER == "yes" ]; then
+if [ $CLUSTER == 'yes' ]; then
    CLUSTER_FILES="$SRC_LOC/myberkeley/scripts/cluster"
 fi
 
