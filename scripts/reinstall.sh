@@ -185,14 +185,14 @@ else
     SPARSE_CONFIG=$CLUSTER_FILES/CacheManagerServiceImpl.config
     if [ -f $SPARSE_CONFIG ]; then
       if [ $IPADDRESS ]; then
-        sed "s/127.0.0.1/$IPADDRESS/g" $SPARSE_CONFIG > $SPACE_CONFIG.new
+        sed "s/127.0.0.1/$IPADDRESS/g" $SPARSE_CONFIG > $SPARSE_CONFIG.new
       fi
       mv $SPARSE_CONFIG.new $SPARSE_CONFIG
     fi
     SPARSE_CONFIG=$CLUSTER_FILES/ClusterTrackingServiceImpl.config
     if [ -f $SPARSE_CONFIG ]; then
       if [ $IPADDRESS ]; then
-        sed "s/127.0.0.1/$IPADDRESS/g" $SPARSE_CONFIG > $SPACE_CONFIG.new
+        sed "s/127.0.0.1/$IPADDRESS/g" $SPARSE_CONFIG > $SPARSE_CONFIG.new
       fi
       mv $SPARSE_CONFIG.new $SPARSE_CONFIG
     fi
