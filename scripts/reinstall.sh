@@ -28,6 +28,7 @@ if [ -f $INPUT_FILE ]; then
   SOLR=`awk -F"=" '/^SOLR=/ {print $2}' $INPUT_FILE`
   SOLR_URL=`awk -F"=" '/^SOLR_URL=/ {print $2}' $INPUT_FILE`
   CLUSTER=`awk -F"=" '/^CLUSTER=/ {print $2}' $INPUT_FILE`
+  IPADDRESS=`awk -F"=" '/^IPADDRESS=/ {print $2}' $INPUT_FILE`
 else
   SLING_PASSWORD='admin'
   SHARED_SECRET='SHARED_SECRET_CHANGE_ME_IN_PRODUCTION'
@@ -87,6 +88,11 @@ echo "------------------------------------------" | $LOGIT
 cd ../myberkeley
 
 STORAGE_FILES="$SRC_LOC/myberkeley/scripts/$OAE_DATABASE"
+
+if [ $CLUSTER == "yes" ]; then
+   CLUSTER_FILES="$SRC_LOC/myberkeley/scripts/cluster"
+fi
+
 if [ -z "$CONFIG_FILE_DIR" ]; then
   echo "Not updating local configuration files..." | $LOGIT
 else
@@ -176,6 +182,20 @@ else
   fi
 
   if [ $CLUSTER == 'yes' ]; then
+    SPARSE_CONFIG=$CLUSTER_FILES/CacheManagerServiceImpl.config
+    if [ -f $SPARSE_CONFIG ]; then
+      if [ $IPADDRESS ]; then
+        sed "s/127.0.0.1/$IPADDRESS/g" $SPARSE_CONFIG > $SPACE_CONFIG.new
+      fi
+      mv $SPARSE_CONFIG.new $SPARSE_CONFIG
+    fi
+    SPARSE_CONFIG=$CLUSTER_FILES/ClusterTrackingServiceImpl.config
+    if [ -f $SPARSE_CONFIG ]; then
+      if [ $IPADDRESS ]; then
+        sed "s/127.0.0.1/$IPADDRESS/g" $SPARSE_CONFIG > $SPACE_CONFIG.new
+      fi
+      mv $SPARSE_CONFIG.new $SPARSE_CONFIG
+    fi
     SPARSE_CONFIG=$SRC_LOC/myberkeley/solrserver/src/main/resources/sling/config/org/sakaiproject/nakamura/solr/RemoteSolrClient.config
     if [ -f $SPARSE_CONFIG ]; then
       sed "/remoteurl/d" $SPARSE_CONFIG > $SPARSE_CONFIG.new
@@ -200,7 +220,12 @@ if [ $SOLR == 'remote' ]; then
 fi
 
 echo "`date`: Starting sling..." | $LOGIT
-mvn -B -e -Dsling.start -Dmyb.sling.config=$STORAGE_FILES -Dsling.memory=2048m -P runner verify >>$LOG 2>&1
+
+if [ $CLUSTER == 'yes' ]; then
+  mvn -B -e -Dsling.start -Dmyb.cluster.config=$CLUSTER_FILES -Dmyb.sling.config=$STORAGE_FILES -Dsling.memory=2048m -P runner verify >>$LOG 2>&1
+else
+  mvn -B -e -Dsling.start -Dmyb.sling.config=$STORAGE_FILES -Dsling.memory=2048m -P runner verify >>$LOG 2>&1
+fi
 
 # wait 2 minutes so sling can get going
 sleep 120;
