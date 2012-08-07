@@ -29,6 +29,7 @@ if [ -f $INPUT_FILE ]; then
   SOLR_URL=`awk -F"=" '/^SOLR_URL=/ {print $2}' $INPUT_FILE`
   CLUSTER=`awk -F"=" '/^CLUSTER=/ {print $2}' $INPUT_FILE`
   IPADDRESS=`awk -F"=" '/^IPADDRESS=/ {print $2}' $INPUT_FILE`
+  HOSTNAME=`awk -F"=" '/^HOSTNAME=/ {print $2}' $INPUT_FILE`
 else
   SLING_PASSWORD='admin'
   SHARED_SECRET='SHARED_SECRET_CHANGE_ME_IN_PRODUCTION'
@@ -182,6 +183,13 @@ else
   fi
 
   if [ $CLUSTER == 'yes' ]; then
+    SPARSE_CONFIG=$CONFIG_FILES/org.sakaiproject.nakamura.http.usercontent.ServerProtectionServiceImpl.config
+    if [ -f $SPARSE_CONFIG ]; then
+      if [ $HOSTNAME ]; then
+        sed "s/calcentral-dev.berkeley.edu/$HOSTNAME/g" $SPARSE_CONFIG > $SPARSE_CONFIG.new
+      fi
+      mv $SPARSE_CONFIG.new $SPARSE_CONFIG
+    fi
     SPARSE_CONFIG=$CLUSTER_FILES/CacheManagerServiceImpl.config
     if [ -f $SPARSE_CONFIG ]; then
       if [ $IPADDRESS ]; then
