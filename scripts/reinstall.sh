@@ -221,7 +221,7 @@ fi
 echo "`date`: Doing clean..." | $LOGIT
 mvn -B -e clean >>$LOG 2>&1
 
-if [ $SOLR == 'remote' ]; then
+if [ $SOLR == 'remote' ] && [ $CLUSTER == 'no' ]; then
   echo "`date`: Starting Solr server..." | $LOGIT
   mvn -e -P solr -Dstart.solr verify
   sleep 10
@@ -230,8 +230,10 @@ fi
 echo "`date`: Starting sling..." | $LOGIT
 
 if [ $CLUSTER == 'yes' ]; then
+  echo "mvn -B -e -Dsling.start -Dmyb.cluster.config=$CLUSTER_FILES -Dmyb.sling.config=$STORAGE_FILES -Dsling.memory=2048m -P runner verify" >> $LOG
   mvn -B -e -Dsling.start -Dmyb.cluster.config=$CLUSTER_FILES -Dmyb.sling.config=$STORAGE_FILES -Dsling.memory=2048m -P runner verify >>$LOG 2>&1
 else
+  echo "mvn -B -e -Dsling.start -Dmyb.sling.config=$STORAGE_FILES -Dsling.memory=2048m -P runner verify" >> $LOG
   mvn -B -e -Dsling.start -Dmyb.sling.config=$STORAGE_FILES -Dsling.memory=2048m -P runner verify >>$LOG 2>&1
 fi
 
