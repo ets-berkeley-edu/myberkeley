@@ -204,7 +204,7 @@ else
       fi
       mv $SPARSE_CONFIG.new $SPARSE_CONFIG
     fi
-    SPARSE_CONFIG=$SRC_LOC/myberkeley/solrserver/src/main/resources/sling/config/org/sakaiproject/nakamura/solr/RemoteSolrClient.config
+    SPARSE_CONFIG=$CLUSTER_FILES/RemoteSolrClient.config
     if [ -f $SPARSE_CONFIG ]; then
       sed "/remoteurl/d" $SPARSE_CONFIG > $SPARSE_CONFIG.new
       if [ $SOLR_URL ]; then

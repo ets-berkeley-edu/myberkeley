@@ -238,6 +238,10 @@
                   todir="${sakai3.home}/sling/config/org/sakaiproject/nakamura/memory" overwrite="true"/>
                 <copy verbose="true" file="${myb.cluster.config}/ehcacheConfig.xml"
                   todir="${sakai3.home}/sling" overwrite="true"/>
+                <copy verbose="true" file="${myb.cluster.config}/SolrServerServiceImpl.config"
+                  todir="${sakai3.home}/sling/config/org/sakaiproject/nakamura/solr" overwrite="true"/>
+                <copy verbose="true" file="${myb.cluster.config}/RemoteSolrClient.config"
+                  todir="${sakai3.home}/sling/config/org/sakaiproject/nakamura/solr" overwrite="true"/>
               </target>
             </configuration>
             <goals>
