@@ -59,7 +59,7 @@ cd $SRC_LOC/myberkeley
 echo "`date`: Stopping sling..." | $LOGIT
 mvn -B -e -Dsling.stop -P runner verify >>$LOG 2>&1 | $LOGIT
 
-if [ $SOLR == 'remote' ]; then
+if [ $SOLR == 'remote' ] && [ $CLUSTER == 'no' ]; then
   sleep 5
   echo "`date`: Stopping Solr server..." | $LOGIT
   mvn -e -P solr -Dstop.solr verify
