@@ -232,7 +232,7 @@
             <phase>pre-integration-test</phase>
             <configuration>
               <target name="config-cluster" if="myb.cluster.config">
-		<delete verbose="true" file="${sakai3.home}/repository.xml"/>
+		<delete verbose="true" file="${sakai3.home}/sling/repository.xml"/>
                 <copy verbose="true" file="${myb.cluster.config}/ClusterTrackingServiceImpl.config"
                   todir="${sakai3.home}/sling/config/org/sakaiproject/nakamura/cluster" overwrite="true"/>
                 <copy verbose="true" file="${myb.cluster.config}/CacheManagerServiceImpl.config"
