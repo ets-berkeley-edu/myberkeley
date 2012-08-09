@@ -169,12 +169,8 @@ else
         mv $SPARSE_CONFIG.new $SPARSE_CONFIG
       fi
       JCR_CONFIG=$STORAGE_FILES/repository.xml
-      if [ -f $JCR_CONFIG ]; then
-        if [ $CLUSTER == 'yes' ] && [ $MYSQL_HOSTPORT ]; then
-          sed -e "s/localhost:3306/$MYSQL_HOSTPORT/g" -e "s/ironchef/$MYSQL_PASSWORD/g" $JCR_CONFIG > $JCR_CONFIG.new
-        else
-          sed "s/ironchef/$MYSQL_PASSWORD/g" $JCR_CONFIG > $JCR_CONFIG.new
-        fi
+      if [ -f $JCR_CONFIG ] && [ $CLUSTER == 'no' ]; then
+        sed "s/ironchef/$MYSQL_PASSWORD/g" $JCR_CONFIG > $JCR_CONFIG.new
         mv $JCR_CONFIG.new $JCR_CONFIG
       fi
     fi
