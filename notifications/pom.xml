@@ -3,13 +3,13 @@
     <parent>
         <artifactId>edu.berkeley.myberkeley.base</artifactId>
         <groupId>edu.berkeley.myberkeley</groupId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>edu.berkeley.myberkeley.notifications</artifactId>
     <name>MyBerkeley CalDAV-based Notifications bundle</name>
     <properties>
-        <nakamura.version>1.4.0-SNAPSHOT</nakamura.version>
+        <nakamura.version>1.4.0</nakamura.version>
     </properties>
     <packaging>bundle</packaging>
     <build>
