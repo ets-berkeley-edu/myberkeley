@@ -200,6 +200,11 @@
         "email": "shacker@berkeley.edu",
         "myb-demographics" : ["/colleges/ETS TEST/standings/grad", "/colleges/ETS TEST/standings/grad/majors/SCOT"]
     },
+    "978966": {
+        "lastName": "Vuerings",
+        "firstName": "Christian",
+        "email": "christian@media.berkeley.edu"
+    },
     "5698": {
         "lastName": "Blackstone",
         "firstName": "Angela",
