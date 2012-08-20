@@ -35,6 +35,7 @@
       <modules>
         <module>dynamiclist</module>
         <module>caldav</module>
+        <module>classpages</module>
         <module>notifications</module>
         <module>migrators</module>
         <module>ojdbc6</module>

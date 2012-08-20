@@ -1,0 +1,63 @@
+{
+  "classid" : %%CLASSID%%,
+  "info_last_updated" : %%INFO_LAST_UPDATED%%,
+  "courseinfo" : {
+    "title" : %%TITLE%%,
+    "format" : %%FORMAT%%,
+    "grading" : %%GRADING%%,
+    "prereqs" : %%PREREQS%%,
+    "requirements" : %%REQUIREMENTS%%,
+    "term" : %%TERM%%,
+    "semesters_offered" : %%SEMESTERS_OFFERED%%,
+    "year" : %%YEAR%%,
+    "department" : %%DEPARTMENT%%,
+    "coursenum" : %%COURSENUM%%,
+    "units" : %%UNITS%%
+  },
+  "classtitle" : %%CLASS_TITLE%%,
+  "description" : %%DESCRIPTION%%,
+  "instructors" : [
+    {
+      "email" : %%EMAIL%%,
+      "id" : %%ID%%,
+      "name" : %%NAME%%,
+      "office" : %%OFFICE%%,
+      "phone" : %%PHONE%%,
+      "img" : %%IMG%%,
+      "title" : %%TITLE%%,
+      "url" : %%URL%%
+    }
+  ],
+  "schedule" : {
+    "coords" : %%COORDS%%,
+    "location" : %%LOCATION%%,
+    "time" : %%TIME%%,
+    "weekdays" : %%WEEKDAYS%%,
+    "current_sem" : %%CURRENT_SEM%%
+  },
+  "sections" : [
+    {
+      "ccn" : %%CCN%%,
+      "enrolled_cur" : %%ENROLLED_CUR%%,
+      "enrolled_max" : %%ENROLLED_MAX%%,
+      "location" : %%LOCATION%%,
+      "coords" : %%COORDS%%,
+      "note" : %%NOTE%%,
+      "section" : %%SECTION%%,
+      "time" : %%TIME%%,
+      "waitlist" : %%WAITLIST%%,
+      "midterm_datetime" : %%MIDTERM_DATETIME%%,
+      "midterm_location" : %%MIDTERM_LOCATION%%,
+      "midterm_coords" : %%MIDTERM_COORDS%%,
+      "midterm_note" : %%MIDTERM_NOTE%%,
+      "final_datetime" : %%FINAL_DATETIME%%,
+      "final_location" : %%FINAL_LOCATION%%,
+      "final_coords" : %%FINAL_COORDS%%,
+      "final_note" : %%FINAL_NOTE%%,
+      "restrictions" : %%RESTRICTIONS%%,
+      "section_instructors" : [
+        {"id" : %%ID%%, "name" : %%NAME%%}
+      ]
+    }
+  ]
+}
